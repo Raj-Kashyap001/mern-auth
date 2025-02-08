@@ -3,7 +3,6 @@ import express from "express";
 import mongoose from "mongoose";
 configDotenv();
 
-configDotenv;
 const app = express();
 mongoose
   .connect(process.env.MONGODB_URI)
