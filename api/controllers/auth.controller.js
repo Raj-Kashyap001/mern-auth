@@ -29,7 +29,7 @@ const handleSignIn = async (req, res, next) => {
     res
       .cookie("access_token", token, {
         httpOnly: true,
-        maxAge: Date.now() + 1000 * 60 * 60, // 1 Hour
+        maxAge: 1000 * 60 * 10, // 10 Minutes
       })
       .status(200)
       .json(user);

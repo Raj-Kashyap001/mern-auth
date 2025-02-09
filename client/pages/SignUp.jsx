@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const SignUp = () => {
   const [formData, setFormData] = useState({});
-  const [requestPending, setRequestPending] = useState(false);
   const [serverError, setServerError] = useState({});
+  const [requestPending, setRequestPending] = useState(false);
+  const navigate = useNavigate();
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
     setServerError({});
@@ -27,7 +28,8 @@ const SignUp = () => {
         );
       }
       setRequestPending(false);
-      setServerError("");
+      setServerError({});
+      navigate("/signin");
     } catch (error) {
       setRequestPending(false);
       setServerError(error);
@@ -44,7 +46,7 @@ const SignUp = () => {
           className="bg-violet-100 px-2 py-1.5 rounded"
           name="username"
           id="username"
-          placeholder="username"
+          placeholder="Username"
           autoComplete="true"
           onChange={handleChange}
         />
@@ -54,7 +56,7 @@ const SignUp = () => {
           className="bg-violet-100 px-2 py-1.5 rounded"
           name="email"
           id="email"
-          placeholder="email"
+          placeholder="Email"
           autoComplete="true"
           onChange={handleChange}
         />
@@ -64,13 +66,14 @@ const SignUp = () => {
           className="bg-violet-100 px-2 py-1.5 rounded"
           name="password"
           id="password"
-          placeholder="password"
+          placeholder="Password"
           autoComplete="true"
           onChange={handleChange}
         />
         {serverError && (
           <p className="text-red-500 text-sm">{serverError.message}</p>
         )}
+
         <button
           className=" px-2 py-1.5 uppercase bg-violet-600 text-white font-bold rounded hover:bg-violet-800 disabled:bg-violet-900 disabled:text-gray-300 cursor-pointer"
           type="submit"
@@ -79,7 +82,7 @@ const SignUp = () => {
           {requestPending ? "Please Wait..." : "Submit"}
         </button>
         <p>
-          Don't have a account?{" "}
+          Don&#39;t have an account?{" "}
           <Link className="text-blue-500 hover:underline" to="/signin">
             Sign In
           </Link>
