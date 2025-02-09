@@ -6,7 +6,7 @@ const Navbar = () => {
       <nav className="flex justify-between items-center w-full max-w-screen-lg mx-auto">
         <div className="text-2xl">
           <Link to={"/"}>
-            <h1>MyAuth</h1>
+            <h1 className="font-bold text-2xl">MyAuth</h1>
           </Link>
         </div>
         <ul className="flex gap-2">
