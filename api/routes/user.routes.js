@@ -3,6 +3,6 @@ import handleUserGet from "../controllers/user.controller.js";
 
 const router = Router();
 
-router.get("/api/user", handleUserGet);
+router.get("/", handleUserGet);
 
 export default router;
