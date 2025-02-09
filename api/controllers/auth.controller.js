@@ -1,5 +1,7 @@
-import User from "../models/user.model.js";
 import bcryptjs from "bcryptjs";
+import jwt from "jsonwebtoken";
+import User from "../models/user.model.js";
+import customErrorHandler from "../utils/customError.js";
 const handleSignUp = async (req, res, next) => {
   try {
     const { username, email, password } = req.body;
@@ -12,4 +14,28 @@ const handleSignUp = async (req, res, next) => {
   }
 };
 
-export default handleSignUp;
+const handleSignIn = async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+    const validUser = await User.findOne({ email });
+
+    if (!validUser) return next(customErrorHandler(404, "User not found!"));
+    const validPassword = bcryptjs.compareSync(password, validUser.password);
+    if (!validPassword)
+      return next(customErrorHandler(401, "Invalid Credentials!"));
+
+    const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET);
+    const { password: hashedPassword, ...user } = validUser._doc; // Seperate the password from user data contained in ._doc
+    res
+      .cookie("access_token", token, {
+        httpOnly: true,
+        maxAge: Date.now() + 1000 * 60 * 60, // 1 Hour
+      })
+      .status(200)
+      .json(user);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export { handleSignUp, handleSignIn };

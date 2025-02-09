@@ -40,6 +40,7 @@ const SignUp = () => {
       <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
         <input
           type="text"
+          required={true}
           className="bg-violet-100 px-2 py-1.5 rounded"
           name="username"
           id="username"
@@ -49,6 +50,7 @@ const SignUp = () => {
         />
         <input
           type="email"
+          required={true}
           className="bg-violet-100 px-2 py-1.5 rounded"
           name="email"
           id="email"
@@ -58,6 +60,7 @@ const SignUp = () => {
         />
         <input
           type="password"
+          required={true}
           className="bg-violet-100 px-2 py-1.5 rounded"
           name="password"
           id="password"
@@ -77,7 +80,7 @@ const SignUp = () => {
         </button>
         <p>
           Don't have a account?{" "}
-          <Link className="text-blue-500 hover:underline" to="/sign-in">
+          <Link className="text-blue-500 hover:underline" to="/signin">
             Sign In
           </Link>
         </p>
