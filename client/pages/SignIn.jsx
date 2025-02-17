@@ -1,19 +1,25 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import {
+  signInStart,
+  signInSuccess,
+  signInFailure,
+} from "../redux/user/userSlice";
+import { useDispatch, useSelector } from "react-redux";
+
 const SignIn = () => {
   const [formData, setFormData] = useState({});
-  const [serverError, setServerError] = useState({});
-  const [requestPending, setRequestPending] = useState(false);
+  const { requestPending, serverError } = useSelector((state) => state.user);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
-    setServerError({});
   };
 
   const handleSubmit = async (e) => {
+    dispatch(signInStart);
     e.preventDefault();
     try {
-      setRequestPending(true);
       const res = await fetch("/api/auth/signin", {
         method: "POST",
         headers: {
@@ -26,12 +32,11 @@ const SignIn = () => {
           `Ops! Something Went Wrong. Please check your details and try agian.`
         );
       }
-      setRequestPending(false);
-      setServerError({});
+      const data = await res.json();
+      dispatch(signInSuccess(data));
       navigate("/");
     } catch (error) {
-      setRequestPending(false);
-      setServerError(error);
+      dispatch(signInFailure(error.message));
     }
   };
 
@@ -60,7 +65,9 @@ const SignIn = () => {
           onChange={handleChange}
         />
         {serverError && (
-          <p className="text-red-500 text-sm">{serverError.message}</p>
+          <p className="text-red-500 text-sm">
+            Something Went Wrong Please Try agian!
+          </p>
         )}
         <button
           className="px-2 py-1.5 uppercase bg-violet-600 text-white font-bold rounded hover:bg-violet-800 disabled:bg-violet-900 disabled:text-gray-300 cursor-pointer"
