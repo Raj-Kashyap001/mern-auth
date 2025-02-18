@@ -27,16 +27,15 @@ const SignIn = () => {
         },
         body: JSON.stringify(formData),
       });
-      if (!res.ok) {
-        throw new Error(
-          `Ops! Something Went Wrong. Please check your details and try agian.`
-        );
-      }
       const data = await res.json();
       dispatch(signInSuccess(data));
+      if (data.success === false) {
+        dispatch(signInFailure(data.error));
+        return;
+      }
       navigate("/");
     } catch (error) {
-      dispatch(signInFailure(error.message));
+      dispatch(signInFailure(error));
     }
   };
 
