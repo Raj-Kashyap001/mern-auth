@@ -3,18 +3,21 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   currentUser: null,
   requestPending: false,
-  serverError: false,
+  serverError: "",
 };
 
 const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    signInStart: (state) => (state.requestPending = true),
+    signInStart: (state) => {
+      state.requestPending = true;
+      state.serverError = "";
+    },
     signInSuccess: (state, action) => {
       state.currentUser = action.payload;
       state.requestPending = false;
-      state.serverError = false;
+      state.serverError = "";
     },
     signInFailure: (state, action) => {
       state.requestPending = false;
