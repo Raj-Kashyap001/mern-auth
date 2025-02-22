@@ -60,12 +60,11 @@ const SignIn = () => {
           name="password"
           id="password"
           placeholder="Password"
-          autoComplete="true"
           onChange={handleChange}
         />
         {serverError && <p className="text-red-500 text-sm">{serverError}</p>}
         <button
-          className="px-2 py-1.5 uppercase bg-violet-600 text-white font-bold rounded hover:bg-violet-800 disabled:bg-violet-900 disabled:text-gray-300 cursor-pointer"
+          className="px-2 py-1.5 uppercase bg-violet-600 text-white font-bold rounded hover:bg-violet-800 disabled:bg-violet-900 disabled:text-gray-300 cursor-pointer disabled:cursor-not-allowed"
           type="submit"
           disabled={requestPending}
         >
