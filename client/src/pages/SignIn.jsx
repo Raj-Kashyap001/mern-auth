@@ -4,9 +4,9 @@ import {
   signInStart,
   signInSuccess,
   signInFailure,
-} from "../redux/user/userSlice";
+} from "../../redux/user/userSlice";
 import { useDispatch, useSelector } from "react-redux";
-
+import OAuth from "../components/OAuth";
 const SignIn = () => {
   const [formData, setFormData] = useState({});
   const { requestPending, serverError } = useSelector((state) => state.user);
@@ -42,11 +42,11 @@ const SignIn = () => {
   return (
     <section id="sign-up" className="max-w-md mx-auto px-4 mt-8 lg:max-w-lg">
       <h2 className="text-3xl font-bold text-center mb-6">Sign In</h2>
-      <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+      <form className="flex flex-col gap-2" onSubmit={handleSubmit}>
         <input
           type="email"
           required={true}
-          className="bg-violet-100 px-2 py-1.5 rounded"
+          className="bg-violet-100 px-2 py-1.5 rounded mt-2"
           name="email"
           id="email"
           placeholder="Email"
@@ -56,7 +56,7 @@ const SignIn = () => {
         <input
           type="password"
           required={true}
-          className="bg-violet-100 px-2 py-1.5 rounded"
+          className="bg-violet-100 px-2 py-1.5 rounded mt-2"
           name="password"
           id="password"
           placeholder="Password"
@@ -64,16 +64,17 @@ const SignIn = () => {
         />
         {serverError && <p className="text-red-500 text-sm">{serverError}</p>}
         <button
-          className="px-2 py-1.5 uppercase bg-violet-600 text-white font-bold rounded hover:bg-violet-800 disabled:bg-violet-900 disabled:text-gray-300 cursor-pointer disabled:cursor-not-allowed"
+          className="px-2 py-1.5 mt-2 uppercase bg-violet-600 text-white font-bold rounded hover:bg-violet-800 disabled:bg-violet-900 disabled:text-gray-300 cursor-pointer disabled:cursor-not-allowed"
           type="submit"
           disabled={requestPending}
         >
           {requestPending ? "Please Wait..." : "Submit"}
         </button>
+        <OAuth />
         <p>
-          Already have an account?{" "}
+          Don&#39;t have an account?{" "}
           <Link className="text-blue-500 hover:underline" to="/signup">
-            Sign Up
+            Sign In
           </Link>
         </p>
       </form>

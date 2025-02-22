@@ -2,6 +2,7 @@ import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
 import User from "../models/user.model.js";
 import customErrorHandler from "../utils/customError.js";
+import { generateUsername } from "../utils/generateUsername.js";
 const handleSignUp = async (req, res, next) => {
   try {
     const { username, email, password } = req.body;
@@ -38,4 +39,41 @@ const handleSignIn = async (req, res, next) => {
   }
 };
 
-export { handleSignUp, handleSignIn };
+const handleGoogleAuth = async (req, res, next) => {
+  try {
+    const { email, name, photoURL } = req.body;
+    const user = await User.findOne({ email: email });
+    if (user) {
+      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+      res.status(201).cookie("access-token", token, {
+        httpOnly: true,
+        maxAge: 1000 * 60 * 60,
+      });
+    } else {
+      const userPassword = bcryptjs.hashSync(
+        Math.random().toString(36).slice(-8),
+        10
+      );
+      const newUser = User({
+        username: generateUsername(name),
+        email: email,
+        password: userPassword,
+        profilePhoto: photoURL,
+      });
+      await newUser.save();
+      const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET);
+      const { password: responsePassword, ...userData } = newUser._doc;
+      res
+        .status(201)
+        .cookie("access-token", token, {
+          httpOnly: true,
+          maxAge: 1000 * 60 * 60,
+        })
+        .json(userData);
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+
+export { handleSignUp, handleSignIn, handleGoogleAuth };

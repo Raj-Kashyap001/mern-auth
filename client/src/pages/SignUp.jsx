@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import OAuth from "../components/OAuth";
 
 const SignUp = () => {
   const [formData, setFormData] = useState({});
@@ -24,7 +25,7 @@ const SignUp = () => {
       });
       if (!res.ok) {
         throw new Error(
-          `Ops! Something Went Wrong. Please check your details and try agian.`
+          `Ops! Something Went Wrong. Please check your details and try again.`
         );
       }
       setRequestPending(false);
@@ -39,11 +40,11 @@ const SignUp = () => {
   return (
     <section id="sign-up" className="max-w-md mx-auto px-4 mt-8 lg:max-w-lg">
       <h2 className="text-3xl font-bold text-center mb-6">Sign Up</h2>
-      <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+      <form className="flex flex-col gap-2" onSubmit={handleSubmit}>
         <input
           type="text"
           required={true}
-          className="bg-violet-100 px-2 py-1.5 rounded"
+          className="bg-violet-100 px-2 py-1.5 rounded mt-2"
           name="username"
           id="username"
           placeholder="Username"
@@ -53,7 +54,7 @@ const SignUp = () => {
         <input
           type="email"
           required={true}
-          className="bg-violet-100 px-2 py-1.5 rounded"
+          className="bg-violet-100 px-2 py-1.5 rounded mt-2"
           name="email"
           id="email"
           placeholder="Email"
@@ -63,7 +64,7 @@ const SignUp = () => {
         <input
           type="password"
           required={true}
-          className="bg-violet-100 px-2 py-1.5 rounded"
+          className="bg-violet-100 px-2 py-1.5 rounded mt-2"
           name="password"
           id="password"
           placeholder="Password"
@@ -81,10 +82,11 @@ const SignUp = () => {
         >
           {requestPending ? "Please Wait..." : "Submit"}
         </button>
+        <OAuth />
         <p>
-          Don&#39;t have an account?{" "}
+          Already have an account?{" "}
           <Link className="text-blue-500 hover:underline" to="/signin">
-            Sign In
+            Sign Up
           </Link>
         </p>
       </form>
