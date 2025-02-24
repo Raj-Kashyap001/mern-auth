@@ -1,8 +1,10 @@
 import { configDotenv } from "dotenv";
 import express from "express";
+import path from "node:path";
 import mongoose from "mongoose";
 import userRoutes from "./routes/user.routes.js";
 import authRoutes from "./routes/auth.routes.js";
+const __dirname = import.meta.dirname;
 configDotenv();
 
 const app = express();
@@ -17,7 +19,9 @@ const app = express();
 })();
 
 app.use(express.json());
-
+app.get("/user/default-profile-image", (req, res) => {
+  res.sendFile(path.join(__dirname, "public/images/default.png"));
+});
 app.use("/api/user/", userRoutes);
 app.use("/api/auth/", authRoutes);
 

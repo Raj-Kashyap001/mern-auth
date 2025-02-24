@@ -18,7 +18,7 @@ const userSchema = new mongoose.Schema(
     },
     profilePicture: {
       type: String,
-      default: "https://avatar.iran.liara.run/public/32",
+      default: "http://localhost:5000/user/default-profile-image",
     },
   },
   { timestamps: true }

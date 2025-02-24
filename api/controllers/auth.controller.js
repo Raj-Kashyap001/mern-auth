@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import User from "../models/user.model.js";
 import customErrorHandler from "../utils/customError.js";
 import { generateUsername } from "../utils/generateUsername.js";
+import { json } from "express";
 const handleSignUp = async (req, res, next) => {
   try {
     const { username, email, password } = req.body;
@@ -45,10 +46,13 @@ const handleGoogleAuth = async (req, res, next) => {
     const user = await User.findOne({ email: email });
     if (user) {
       const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
-      res.status(201).cookie("access-token", token, {
-        httpOnly: true,
-        maxAge: 1000 * 60 * 60,
-      });
+      res
+        .status(201)
+        .cookie("access-token", token, {
+          httpOnly: true,
+          maxAge: 1000 * 60 * 60,
+        })
+        .json(user);
     } else {
       const userPassword = bcryptjs.hashSync(
         Math.random().toString(36).slice(-8),
@@ -58,7 +62,7 @@ const handleGoogleAuth = async (req, res, next) => {
         username: generateUsername(name),
         email: email,
         password: userPassword,
-        profilePhoto: photoURL,
+        profilePicture: photoURL,
       });
       await newUser.save();
       const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET);

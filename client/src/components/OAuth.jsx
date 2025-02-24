@@ -21,7 +21,6 @@ const OAuth = () => {
           photoURL: result.user.photoURL,
         }),
       });
-
       const data = await response.json();
       dispatch(signInSuccess(data));
       console.log(data);
