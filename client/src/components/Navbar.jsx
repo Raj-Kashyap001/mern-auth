@@ -22,7 +22,7 @@ const Navbar = () => {
               About
             </Link>
           </li>
-          <li>
+          <Link to={"/profile"}>
             {currentUser ? (
               <img
                 className="w-8 aspect-square mx-2 rounded-full"
@@ -30,11 +30,9 @@ const Navbar = () => {
                 alt="profile-photo"
               ></img>
             ) : (
-              <Link className="hover:text-violet-700" to={"/signin"}>
-                Sign In
-              </Link>
+              <li className="hover:text-violet-700">Sign In</li>
             )}
-          </li>
+          </Link>
         </ul>
       </nav>
     </header>
